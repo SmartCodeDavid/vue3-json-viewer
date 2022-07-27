@@ -8,10 +8,25 @@
       </span>
     </div>
     <div class="jv-code" :class="{ open: expandCode, boxed }">
-      <json-box ref="jsonBox" :value="value" :sort="sort" :preview-mode="previewMode" />
+      <json-box
+        ref="jsonBox"
+        :value="value"
+        :sort="sort"
+        :preview-mode="previewMode"
+      />
     </div>
-    <div v-if="expandableCode && boxed" class="jv-more" @click="toggleExpandCode">
+    <div
+      v-if="expandableCode && boxed"
+      class="jv-more"
+      @click="toggleExpandCode"
+    >
       <span class="jv-toggle" :class="{ open: !!expandCode }" />
+    </div>
+    <div class="jv-image-popup" v-if="showPopup">
+      <div class="show-area">
+        <img class="jv-image" :src="imgeSrc" alt="" />
+        <div class="close-btn" @click.stop="closePopup">+</div>
+      </div>
     </div>
   </div>
 </template>
@@ -76,12 +91,16 @@ export default {
       copied: false,
       expandableCode: false,
       expandCode: this.expanded,
+      showPopup: false,
+      imgeSrc: "",
     };
   },
   emits: ["onKeyClick"],
   computed: {
     jvClass() {
-      return "jv-container " + "jv-"+this.theme + (this.boxed ? " boxed" : "");
+      return (
+        "jv-container " + "jv-" + this.theme + (this.boxed ? " boxed" : "")
+      );
     },
     copyText() {
       const { copyText, copiedText, timeout, align } = this.copyable;
@@ -104,6 +123,7 @@ export default {
     if (this.boxed && this.$refs.jsonBox) {
       this.onResized();
       this.$refs.jsonBox.$el.addEventListener("resized", this.onResized, true);
+      this.$refs.jsonBox.$el.addEventListener("popup", this.onPopup, true);
     }
     if (this.copyable) {
       const clipBoard = new Clipboard(this.$refs.clip, {
@@ -117,6 +137,17 @@ export default {
     }
   },
   methods: {
+    closePopup() {
+      this.showPopup = !this.showPopup;
+      this.imgeSrc = "";
+    },
+    onPopup(e) {
+      console.log("onpopup", e);
+      const detail = e.detail || {};
+      // identifying the blob or image url
+      this.imgeSrc = detail;
+      this.showPopup = !this.showPopup;
+    },
     onResized() {
       this.debounceResized();
     },
@@ -283,6 +314,18 @@ export default {
 .jv-container.jv-light .jv-item.jv-string .jv-link {
   color: #0366d6;
 }
+.jv-container.jv-light .jv-item.jv-image {
+  width: 100px;
+  height: 30px;
+  background-color: #42b983;
+  border-radius: 5px;
+  color: white;
+  padding: 4px;
+}
+.jv-container.jv-light .jv-item.jv-image:hover {
+  cursor: pointer;
+}
+
 .jv-container.jv-light .jv-code .jv-toggle:before {
   padding: 0px 2px;
   border-radius: 2px;
@@ -389,4 +432,55 @@ export default {
 .jv-container .j-icon {
   font-size: 12px;
 }
+.jv-image-popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  z-index: 999;
+}
+
+.jv-image-popup .show-area {
+  position: relative;
+  width: 50vw;
+  height: 50vw;
+}
+
+.jv-image-popup .show-area .jv-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.jv-image-popup .show-area .close-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(230, 230, 230, 0.9);
+  color: black;
+  font-weight: 500;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(45deg);
+  font-size: 25px;
+}
+.jv-image-popup .show-area .close-btn:hover {
+  cursor: pointer;
+}
 </style>
+
+

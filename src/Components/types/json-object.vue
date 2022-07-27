@@ -78,7 +78,7 @@ export default {
         onClick: this.toggle
       }))
     }
-
+    // 包裹{}DOM
     elements.push(h('span', {
       class: {
         'jv-item': true,
@@ -102,6 +102,8 @@ export default {
             depth: this.depth + 1,
             value,
             previewMode: this.previewMode,
+            mineType: this.value.mime_type,
+            originalValue: this.value, // original value, jsonbox can identify its minetype
           }))
         }
       }

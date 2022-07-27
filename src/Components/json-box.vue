@@ -8,6 +8,7 @@ import JsonArray from "./types/json-array.vue";
 import JsonFunction from "./types/json-function.vue";
 import JsonDate from "./types/json-date.vue";
 import JsonRegexp from "./types/json-regexp.vue";
+import JsonImage from "./types/json-image.vue";
 import { h } from "vue";
 export default {
   name: "JsonBox",
@@ -27,14 +28,24 @@ export default {
       default: 0,
     },
     previewMode: Boolean,
+    originalValue: {
+      type: [Object, Array, String, Number, Boolean, Function, Date],
+      default: null,
+    },
+    mineType: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
       expand: true,
+      popup: false,
     };
   },
   mounted() {
-    this.expand = this.previewMode || (this.depth >= this.expandDepth ? false : true);
+    this.expand =
+      this.previewMode || (this.depth >= this.expandDepth ? false : true);
   },
   methods: {
     toggle() {
@@ -53,13 +64,19 @@ export default {
   render() {
     let elements = [];
     let dataType;
-
     if (this.value === null || this.value === undefined) {
       dataType = JsonUndefined;
     } else if (Array.isArray(this.value)) {
       dataType = JsonArray;
     } else if (Object.prototype.toString.call(this.value) === "[object Date]") {
       dataType = JsonDate;
+    } else if (
+      typeof this.value === "string" &&
+      this.mineType?.includes("image") &&
+      (this.keyName === "uri" || this.keyName === "blob")
+    ) {
+      // mine_type: image/video
+      dataType = JsonImage;
     } else if (typeof this.value === "object") {
       dataType = JsonObject;
     } else if (typeof this.value === "number") {
@@ -76,13 +93,14 @@ export default {
       // this.value=this.value.toString()
       dataType = JsonRegexp;
     }
+    // array or object will be folded, sign with jv-toggle class
     const complex =
       this.keyName &&
       this.value &&
       (Array.isArray(this.value) ||
         (typeof this.value === "object" &&
           Object.prototype.toString.call(this.value) !== "[object Date]"));
-
+    // toggle icon button
     if (!this.previewMode && complex) {
       elements.push(
         h("span", {
@@ -122,6 +140,11 @@ export default {
         previewMode: this.previewMode,
         "onUpdate:expand": (value) => {
           this.expand = value;
+        },
+        "onUpdate:popup": (value) => {
+          // goto show the image popup,
+          this.popup = value;
+          console.log("onUpdate:popup", this.originalValue);
         },
       })
     );
