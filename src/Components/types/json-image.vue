@@ -8,25 +8,29 @@ export default {
       type: [String, Blob],
       required: true,
     },
+    originalValue: {
+      type: [Object, Array, String, Number, Boolean, Function, Date],
+      default: null,
+    },
     popup: Boolean,
   },
   methods: {
     toggle() {
-      // emit popup event to show image/video
+      // emit popup event to show image
       this.$emit("update:popup", true);
       this.dispatchEvent();
     },
     dispatchEvent() {
       try {
         this.$el.dispatchEvent(
-          new CustomEvent('popup', {
-            detail: this.jsonValue,
+          new CustomEvent("jvImgPopup", {
+            detail: this.originalValue,
           })
         );
       } catch (e) {
         // handle IE not supporting Event constructor
-        var evt = document.createEvent("Event");
-        evt.initEvent("resized", true, false);
+        var evt = document.createEvent("CustomEvent");
+        evt.initCustomEvent("jvImgPopup", true, false, this.originalValue);
         this.$el.dispatchEvent(evt);
       }
     },
@@ -38,7 +42,7 @@ export default {
         "jv-image": true,
       },
       onClick: this.toggle,
-      innerText: `click to show the image/video`,
+      innerText: `click to show the image`,
     });
   },
 };

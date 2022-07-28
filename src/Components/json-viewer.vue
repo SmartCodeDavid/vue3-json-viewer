@@ -35,6 +35,7 @@
 import JsonBox from "./json-box.vue";
 import Clipboard from "clipboard";
 import { debounce } from "./utils.js";
+import utils from '../utils';
 
 export default {
   name: "JsonViewer",
@@ -123,7 +124,7 @@ export default {
     if (this.boxed && this.$refs.jsonBox) {
       this.onResized();
       this.$refs.jsonBox.$el.addEventListener("resized", this.onResized, true);
-      this.$refs.jsonBox.$el.addEventListener("popup", this.onPopup, true);
+      this.$refs.jsonBox.$el.addEventListener("jvImgPopup", this.onPopup, true);
     }
     if (this.copyable) {
       const clipBoard = new Clipboard(this.$refs.clip, {
@@ -142,10 +143,15 @@ export default {
       this.imgeSrc = "";
     },
     onPopup(e) {
-      console.log("onpopup", e);
-      const detail = e.detail || {};
+      // mime_type needed to identify a blob or img url
+      console.log("jvImgPopup", e);
+      const obj = e.detail;
+      // if (obj.uri)
+      const source = obj.uri || utils.base64toBlob(obj.blob)
+      // const blob = utils.base64toBlob(e.detail);
+      // const detail = e.detail || {};
       // identifying the blob or image url
-      this.imgeSrc = detail;
+      this.imgeSrc = source;
       this.showPopup = !this.showPopup;
     },
     onResized() {
@@ -451,8 +457,9 @@ export default {
 
 .jv-image-popup .show-area {
   position: relative;
-  width: 50vw;
-  height: 50vw;
+  width: 40vw;
+  height: 40vw;
+  background: white;
 }
 
 .jv-image-popup .show-area .jv-image {

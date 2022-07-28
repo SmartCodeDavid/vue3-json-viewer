@@ -71,9 +71,11 @@ export default {
     } else if (Object.prototype.toString.call(this.value) === "[object Date]") {
       dataType = JsonDate;
     } else if (
-      typeof this.value === "string" &&
-      this.mineType?.includes("image") &&
-      (this.keyName === "uri" || this.keyName === "blob")
+      (typeof this.value === "string" &&
+        this.mineType?.includes("image") &&
+        this.keyName === "uri" &&
+        /^(http|https):\/\//.test(this.value)) ||
+      (this.keyName === "blob" && this.value.length > 0)
     ) {
       // mine_type: image/video
       dataType = JsonImage;
@@ -88,7 +90,7 @@ export default {
     } else if (typeof this.value === "function") {
       dataType = JsonFunction;
     }
-    if (this.value.constructor === RegExp) {
+    if (this.value?.constructor === RegExp) {
       // console.log("type", this.value.constructor === RegExp);
       // this.value=this.value.toString()
       dataType = JsonRegexp;
@@ -126,7 +128,6 @@ export default {
         })
       );
     }
-
     elements.push(
       h(dataType, {
         class: {
@@ -138,14 +139,15 @@ export default {
         depth: this.depth,
         expand: this.expand,
         previewMode: this.previewMode,
+        originalValue: this.originalValue,
         "onUpdate:expand": (value) => {
           this.expand = value;
         },
-        "onUpdate:popup": (value) => {
-          // goto show the image popup,
-          this.popup = value;
-          console.log("onUpdate:popup", this.originalValue);
-        },
+        // "onUpdate:popup": (value) => {
+        //   debugger;
+        //   this.popup = value;
+        //   console.log("onUpdate:popup", this.originalValue);
+        // },
       })
     );
 
