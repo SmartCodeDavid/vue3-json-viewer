@@ -15,13 +15,13 @@
         :preview-mode="previewMode"
       />
     </div>
-    <div
+    <!-- <div
       v-if="expandableCode && boxed"
       class="jv-more"
       @click="toggleExpandCode"
     >
       <span class="jv-toggle" :class="{ open: !!expandCode }" />
-    </div>
+    </div> -->
     <div class="jv-image-popup" v-if="showPopup">
       <div class="show-area">
         <img class="jv-image" :src="imgeSrc" alt="" />
@@ -34,8 +34,7 @@
 <script>
 import JsonBox from "./json-box.vue";
 import Clipboard from "clipboard";
-import { debounce } from "./utils.js";
-import utils from '../utils';
+import { debounce, base64toBlob, checkIslegalURL } from "../utils";
 
 export default {
   name: "JsonViewer",
@@ -146,11 +145,9 @@ export default {
       // mime_type needed to identify a blob or img url
       console.log("jvImgPopup", e);
       const obj = e.detail;
-      // if (obj.uri)
-      const source = obj.uri || utils.base64toBlob(obj.blob)
-      // const blob = utils.base64toBlob(e.detail);
-      // const detail = e.detail || {};
-      // identifying the blob or image url
+      const source = checkIslegalURL(obj.uri)
+        ? obj.uri
+        : base64toBlob(obj.blob);
       this.imgeSrc = source;
       this.showPopup = !this.showPopup;
     },
@@ -193,7 +190,7 @@ export default {
   position: relative;
 }
 .jv-container.boxed {
-  border: 1px solid #eee;
+  /* border: 1px solid #eee; */
   border-radius: 6px;
 }
 .jv-container.boxed:hover {
@@ -340,17 +337,20 @@ export default {
   background: #eee;
 }
 .jv-container .jv-code {
-  overflow: hidden;
+  /* overflow: hidden; */
   padding: 30px 20px;
 }
 .jv-container .jv-code.boxed {
-  /* max-height: 300px; */
+  /* max-height: 400px; */
+  height: 100vh;
+  max-height: 100vh;
+  overflow: scroll;
 }
 .jv-container .jv-code.open {
-  max-height: initial !important;
+  /* max-height: initial !important;
   overflow: visible;
   overflow-x: auto;
-  padding-bottom: 45px;
+  padding-bottom: 45px; */
 }
 .jv-container .jv-toggle {
   background-image: url(./icon.svg);
@@ -443,13 +443,11 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  width: 100vw;
-  height: 100vh;
   background: rgba(0, 0, 0, 0.7);
   overflow: hidden;
   z-index: 999;
@@ -457,8 +455,8 @@ export default {
 
 .jv-image-popup .show-area {
   position: relative;
-  width: 40vw;
-  height: 40vw;
+  width: 40%;
+  height: 40%;
   background: white;
 }
 

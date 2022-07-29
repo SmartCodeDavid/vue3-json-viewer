@@ -9,6 +9,7 @@ import JsonFunction from "./types/json-function.vue";
 import JsonDate from "./types/json-date.vue";
 import JsonRegexp from "./types/json-regexp.vue";
 import JsonImage from "./types/json-image.vue";
+import { checkIslegalURL } from '../utils';
 import { h } from "vue";
 export default {
   name: "JsonBox",
@@ -74,7 +75,7 @@ export default {
       (typeof this.value === "string" &&
         this.mineType?.includes("image") &&
         this.keyName === "uri" &&
-        /^(http|https):\/\//.test(this.value)) ||
+        checkIslegalURL(this.value)) ||
       (this.keyName === "blob" && this.value.length > 0)
     ) {
       // mine_type: image/video

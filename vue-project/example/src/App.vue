@@ -319,6 +319,6 @@ const jsonData = reactive(docArrayJson);
 
 <style>
 .box {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
 }
 </style>
