@@ -455,8 +455,10 @@ export default {
 
 .jv-image-popup .show-area {
   position: relative;
-  width: 40%;
-  height: 40%;
+  width: 35vw;
+  height: 35vw;
+  max-width: 650px;
+  max-height: 650px;
   background: white;
 }
 
