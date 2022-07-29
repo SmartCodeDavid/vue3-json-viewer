@@ -1,4 +1,4 @@
-import { h, resolveComponent, openBlock, createElementBlock, normalizeClass, createElementVNode, renderSlot, createTextVNode, toDisplayString, createCommentVNode, createVNode } from 'vue';
+import { h, resolveComponent, openBlock, createElementBlock, normalizeClass, createElementVNode, renderSlot, createTextVNode, toDisplayString, createCommentVNode, createVNode, withModifiers } from 'vue';
 
 function _typeof(obj) {
   "@babel/helpers - typeof";
@@ -11,7 +11,7 @@ function _typeof(obj) {
 }
 
 var REG_LINK$1 = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
-var script$a = {
+var script$b = {
     name: 'JsonString',
     props: {
         jsonValue: {
@@ -77,9 +77,9 @@ var script$a = {
     }
 };
 
-script$a.__file = "src/Components/types/json-string.vue";
+script$b.__file = "src/Components/types/json-string.vue";
 
-var script$9 = {
+var script$a = {
     name: 'JsonUndefined',
     functional: true,
     props: {
@@ -99,9 +99,9 @@ var script$9 = {
     }
 };
 
-script$9.__file = "src/Components/types/json-undefined.vue";
+script$a.__file = "src/Components/types/json-undefined.vue";
 
-var script$8 = {
+var script$9 = {
     name: 'JsonNumber',
     functional: true,
     props: {
@@ -124,9 +124,9 @@ var script$8 = {
     }
 };
 
-script$8.__file = "src/Components/types/json-number.vue";
+script$9.__file = "src/Components/types/json-number.vue";
 
-var script$7 = {
+var script$8 = {
     name: 'JsonBoolean',
     functional: true,
     props: { jsonValue: Boolean },
@@ -141,9 +141,9 @@ var script$7 = {
     }
 };
 
-script$7.__file = "src/Components/types/json-boolean.vue";
+script$8.__file = "src/Components/types/json-boolean.vue";
 
-var script$6 = {
+var script$7 = {
     name: 'JsonObject',
     props: {
         jsonValue: {
@@ -236,7 +236,9 @@ var script$6 = {
                         keyName: key,
                         depth: this.depth + 1,
                         value: value,
-                        previewMode: this.previewMode
+                        previewMode: this.previewMode,
+                        mineType: this.value.mime_type,
+                        originalValue: this.value
                     }));
                 }
             }
@@ -261,9 +263,9 @@ var script$6 = {
     }
 };
 
-script$6.__file = "src/Components/types/json-object.vue";
+script$7.__file = "src/Components/types/json-object.vue";
 
-var script$5 = {
+var script$6 = {
     name: 'JsonArray',
     props: {
         jsonValue: {
@@ -369,9 +371,9 @@ var script$5 = {
     }
 };
 
-script$5.__file = "src/Components/types/json-array.vue";
+script$6.__file = "src/Components/types/json-array.vue";
 
-var script$4 = {
+var script$5 = {
     name: 'JsonFunction',
     functional: true,
     props: {
@@ -392,9 +394,9 @@ var script$4 = {
     }
 };
 
-script$4.__file = "src/Components/types/json-function.vue";
+script$5.__file = "src/Components/types/json-function.vue";
 
-var script$3 = {
+var script$4 = {
     name: 'JsonDate',
     inject: ['timeformat'],
     functional: true,
@@ -417,10 +419,10 @@ var script$3 = {
     }
 };
 
-script$3.__file = "src/Components/types/json-date.vue";
+script$4.__file = "src/Components/types/json-date.vue";
 
 var REG_LINK = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/;
-var script$2 = {
+var script$3 = {
     name: 'JsonString',
     props: {
         jsonValue: {
@@ -486,7 +488,90 @@ var script$2 = {
     }
 };
 
-script$2.__file = "src/Components/types/json-regexp.vue";
+script$3.__file = "src/Components/types/json-regexp.vue";
+
+var script$2 = {
+    name: 'JsonImage',
+    functional: true,
+    props: {
+        jsonValue: {
+            type: [
+                String,
+                Blob
+            ],
+            required: true
+        },
+        originalValue: {
+            type: [
+                Object,
+                Array,
+                String,
+                Number,
+                Boolean,
+                Function,
+                Date
+            ],
+            'default': null
+        },
+        popup: Boolean
+    },
+    methods: {
+        toggle: function toggle() {
+            this.$emit('update:popup', true);
+            this.dispatchEvent();
+        },
+        dispatchEvent: function dispatchEvent() {
+            try {
+                this.$el.dispatchEvent(new CustomEvent('jvImgPopup', { detail: this.originalValue }));
+            } catch (e) {
+                var evt = document.createEvent('CustomEvent');
+                evt.initCustomEvent('jvImgPopup', true, false, this.originalValue);
+                this.$el.dispatchEvent(evt);
+            }
+        }
+    },
+    render: function render() {
+        return h('span', {
+            'class': {
+                'jv-item': true,
+                'jv-image': true
+            },
+            onClick: this.toggle,
+            innerText: 'click to show the image'
+        });
+    }
+};
+
+script$2.__file = "src/Components/types/json-image.vue";
+
+var debounce = function debounce(func, wait) {
+    var startTime = Date.now();
+    var timer;
+    return function () {
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+        if (Date.now() - startTime < wait && timer) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(function () {
+            func.apply(void 0, args);
+        }, wait);
+        startTime = Date.now();
+    };
+};
+var base64toBlob = function base64toBlob(base64) {
+    var binStr = window.atob(base64);
+    var uint8Array = Uint8Array.from(binStr, function (x) {
+        return x.charCodeAt(0);
+    });
+    var buff = uint8Array.buffer;
+    var blobURL = window.URL.createObjectURL(new Blob([buff]));
+    return blobURL;
+};
+var checkIslegalURL = function checkIslegalURL(url) {
+    return /^(http|https):\/\//.test(url);
+};
 
 var script$1 = {
     name: 'JsonBox',
@@ -516,10 +601,29 @@ var script$1 = {
             type: Number,
             'default': 0
         },
-        previewMode: Boolean
+        previewMode: Boolean,
+        originalValue: {
+            type: [
+                Object,
+                Array,
+                String,
+                Number,
+                Boolean,
+                Function,
+                Date
+            ],
+            'default': null
+        },
+        mineType: {
+            type: String,
+            'default': null
+        }
     },
     data: function data() {
-        return { expand: true };
+        return {
+            expand: true,
+            popup: false
+        };
     },
     mounted: function mounted() {
         this.expand = this.previewMode || (this.depth >= this.expandDepth ? false : true);
@@ -537,28 +641,30 @@ var script$1 = {
         }
     },
     render: function render() {
-        var _this = this;
+        var _this$mineType, _this$value, _this = this;
         var elements = [];
         var dataType;
         if (this.value === null || this.value === undefined) {
-            dataType = script$9;
-        } else if (Array.isArray(this.value)) {
-            dataType = script$5;
-        } else if (Object.prototype.toString.call(this.value) === '[object Date]') {
-            dataType = script$3;
-        } else if (_typeof(this.value) === 'object') {
-            dataType = script$6;
-        } else if (typeof this.value === 'number') {
-            dataType = script$8;
-        } else if (typeof this.value === 'string') {
             dataType = script$a;
-        } else if (typeof this.value === 'boolean') {
-            dataType = script$7;
-        } else if (typeof this.value === 'function') {
+        } else if (Array.isArray(this.value)) {
+            dataType = script$6;
+        } else if (Object.prototype.toString.call(this.value) === '[object Date]') {
             dataType = script$4;
-        }
-        if (this.value.constructor === RegExp) {
+        } else if (typeof this.value === 'string' && (_this$mineType = this.mineType) !== null && _this$mineType !== void 0 && _this$mineType.includes('image') && this.keyName === 'uri' && checkIslegalURL(this.value) || this.keyName === 'blob' && this.value.length > 0) {
             dataType = script$2;
+        } else if (_typeof(this.value) === 'object') {
+            dataType = script$7;
+        } else if (typeof this.value === 'number') {
+            dataType = script$9;
+        } else if (typeof this.value === 'string') {
+            dataType = script$b;
+        } else if (typeof this.value === 'boolean') {
+            dataType = script$8;
+        } else if (typeof this.value === 'function') {
+            dataType = script$5;
+        }
+        if (((_this$value = this.value) === null || _this$value === void 0 ? void 0 : _this$value.constructor) === RegExp) {
+            dataType = script$3;
         }
         var complex = this.keyName && this.value && (Array.isArray(this.value) || _typeof(this.value) === 'object' && Object.prototype.toString.call(this.value) !== '[object Date]');
         if (!this.previewMode && complex) {
@@ -587,6 +693,7 @@ var script$1 = {
             depth: this.depth,
             expand: this.expand,
             previewMode: this.previewMode,
+            originalValue: this.originalValue,
             'onUpdate:expand': function onUpdateExpand(value) {
                 _this.expand = value;
             }
@@ -1177,23 +1284,6 @@ var clipboard = {exports: {}};
 }(clipboard));
 var Clipboard = getDefaultExportFromCjs(clipboard.exports);
 
-var debounce = function debounce(func, wait) {
-    var startTime = Date.now();
-    var timer;
-    return function () {
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-        if (Date.now() - startTime < wait && timer) {
-            clearTimeout(timer);
-        }
-        timer = setTimeout(function () {
-            func.apply(void 0, args);
-        }, wait);
-        startTime = Date.now();
-    };
-};
-
 var script = {
     name: 'JsonViewer',
     components: { JsonBox: script$1 },
@@ -1258,7 +1348,9 @@ var script = {
         return {
             copied: false,
             expandableCode: false,
-            expandCode: this.expanded
+            expandCode: this.expanded,
+            showPopup: false,
+            imgeSrc: ''
         };
     },
     emits: ['onKeyClick'],
@@ -1287,6 +1379,7 @@ var script = {
         if (this.boxed && this.$refs.jsonBox) {
             this.onResized();
             this.$refs.jsonBox.$el.addEventListener('resized', this.onResized, true);
+            this.$refs.jsonBox.$el.addEventListener('jvImgPopup', this.onPopup, true);
         }
         if (this.copyable) {
             var clipBoard = new Clipboard(this.$refs.clip, {
@@ -1300,6 +1393,17 @@ var script = {
         }
     },
     methods: {
+        closePopup: function closePopup() {
+            this.showPopup = !this.showPopup;
+            this.imgeSrc = '';
+        },
+        onPopup: function onPopup(e) {
+            console.log('jvImgPopup', e);
+            var obj = e.detail;
+            var source = checkIslegalURL(obj.uri) ? obj.uri : base64toBlob(obj.blob);
+            this.imgeSrc = source;
+            this.showPopup = !this.showPopup;
+        },
         onResized: function onResized() {
             this.debounceResized();
         },
@@ -1335,6 +1439,12 @@ var script = {
     }
 };
 
+var _hoisted_1 = {
+    key: 1,
+    'class': 'jv-image-popup'
+};
+var _hoisted_2 = { 'class': 'show-area' };
+var _hoisted_3 = ['src'];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_json_box = resolveComponent('json-box');
     return openBlock(), createElementBlock('div', { 'class': normalizeClass($options.jvClass) }, [
@@ -1368,18 +1478,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 'sort',
                 'preview-mode'
             ])], 2),
-        $data.expandableCode && $props.boxed ? (openBlock(), createElementBlock('div', {
-            key: 1,
-            'class': 'jv-more',
-            onClick: _cache[0] || (_cache[0] = function () {
-                return $options.toggleExpandCode && $options.toggleExpandCode.apply($options, arguments);
-            })
-        }, [createElementVNode('span', {
-                'class': normalizeClass([
-                    'jv-toggle',
-                    { open: !!$data.expandCode }
-                ])
-            }, null, 2)])) : createCommentVNode('v-if', true)
+        createCommentVNode(' <div\n      v-if="expandableCode && boxed"\n      class="jv-more"\n      @click="toggleExpandCode"\n    >\n      <span class="jv-toggle" :class="{ open: !!expandCode }" />\n    </div> '),
+        $data.showPopup ? (openBlock(), createElementBlock('div', _hoisted_1, [createElementVNode('div', _hoisted_2, [
+                createElementVNode('img', {
+                    'class': 'jv-image',
+                    src: $data.imgeSrc,
+                    alt: ''
+                }, null, 8, _hoisted_3),
+                createElementVNode('div', {
+                    'class': 'close-btn',
+                    onClick: _cache[0] || (_cache[0] = withModifiers(function () {
+                        return $options.closePopup && $options.closePopup.apply($options, arguments);
+                    }, ['stop']))
+                }, '+')
+            ])])) : createCommentVNode('v-if', true)
     ], 2);
 }
 

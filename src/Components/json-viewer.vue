@@ -188,6 +188,7 @@ export default {
 .jv-container {
   box-sizing: border-box;
   position: relative;
+  height: 100%;
 }
 .jv-container.boxed {
   /* border: 1px solid #eee; */
@@ -341,9 +342,7 @@ export default {
   padding: 30px 20px;
 }
 .jv-container .jv-code.boxed {
-  /* max-height: 400px; */
-  height: 100vh;
-  max-height: 100vh;
+  height: 100%;
   overflow: scroll;
 }
 .jv-container .jv-code.open {
@@ -455,8 +454,8 @@ export default {
 
 .jv-image-popup .show-area {
   position: relative;
-  width: 35vw;
-  height: 35vw;
+  width: 40vw;
+  height: 40vw;
   max-width: 650px;
   max-height: 650px;
   background: white;
