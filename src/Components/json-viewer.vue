@@ -344,7 +344,7 @@ export default {
   padding: 30px 20px;
 }
 .jv-container .jv-code.boxed {
-  max-height: 300px;
+  /* max-height: 300px; */
 }
 .jv-container .jv-code.open {
   max-height: initial !important;
