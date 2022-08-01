@@ -9,7 +9,7 @@ import JsonFunction from "./types/json-function.vue";
 import JsonDate from "./types/json-date.vue";
 import JsonRegexp from "./types/json-regexp.vue";
 import JsonImage from "./types/json-image.vue";
-import { checkIslegalURL } from '../utils';
+import { checkIslegalURL } from "../utils";
 import { h } from "vue";
 export default {
   name: "JsonBox",
@@ -29,6 +29,7 @@ export default {
       default: 0,
     },
     previewMode: Boolean,
+    allowImageShow: Boolean,
     originalValue: {
       type: [Object, Array, String, Number, Boolean, Function, Date],
       default: null,
@@ -63,6 +64,7 @@ export default {
     },
   },
   render() {
+    debugger;
     let elements = [];
     let dataType;
     if (this.value === null || this.value === undefined) {
@@ -72,13 +74,14 @@ export default {
     } else if (Object.prototype.toString.call(this.value) === "[object Date]") {
       dataType = JsonDate;
     } else if (
-      (typeof this.value === "string" &&
+      this.allowImageShow &&
+      ((typeof this.value === "string" &&
         this.mineType?.includes("image") &&
         this.keyName === "uri" &&
         checkIslegalURL(this.value)) ||
-      (this.keyName === "blob" && this.value.length > 0)
+        (this.keyName === "blob" && this.value.length > 0))
     ) {
-      // mine_type: image/video
+      // mine_type: image
       dataType = JsonImage;
     } else if (typeof this.value === "object") {
       dataType = JsonObject;
@@ -140,6 +143,7 @@ export default {
         depth: this.depth,
         expand: this.expand,
         previewMode: this.previewMode,
+        allowImageShow: this.allowImageShow,
         originalValue: this.originalValue,
         "onUpdate:expand": (value) => {
           this.expand = value;

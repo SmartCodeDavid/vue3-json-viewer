@@ -13,8 +13,8 @@ export const debounce = function(func, wait) {
 	}
   }
 
+// convert base64 to blob URL
 export const base64toBlob = function (base64) {
-  // convert base64 to blob URL
   const binStr = window.atob(base64);
   const uint8Array = Uint8Array.from(binStr, (x) => x.charCodeAt(0));
   const buff = uint8Array.buffer;

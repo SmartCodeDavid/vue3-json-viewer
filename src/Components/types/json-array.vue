@@ -19,6 +19,7 @@ export default {
     sort: Boolean,
     expand: Boolean,
     previewMode: Boolean,
+    allowImageShow: Boolean,
   },
   data() {
     return {
@@ -91,6 +92,7 @@ export default {
           depth: this.depth + 1,
           value,
           previewMode: this.previewMode,
+          allowImageShow: this.allowImageShow,
         }))
       })
     }

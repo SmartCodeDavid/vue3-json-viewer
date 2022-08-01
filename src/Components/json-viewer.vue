@@ -13,6 +13,7 @@
         :value="value"
         :sort="sort"
         :preview-mode="previewMode"
+        :allow-image-show="allowImageShow"
       />
     </div>
     <!-- <div
@@ -78,6 +79,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    allowImageShow: {
+      type: Boolean,
+      default: false,
+    }
   },
   provide() {
     return {
@@ -291,6 +296,17 @@ export default {
 .jv-container.jv-dark .jv-code .jv-toggle:hover:before {
   background: #eee;
 }
+.jv-container.jv-dark .jv-item.jv-image {
+  width: 100px;
+  height: 30px;
+  background-color: #42b983;
+  border-radius: 5px;
+  color: white;
+  padding: 4px;
+}
+.jv-container.jv-dark .jv-item.jv-image:hover {
+  cursor: pointer;
+}
 /**light */
 .jv-container.jv-light .jv-item.jv-array {
   color: #111111;
@@ -454,8 +470,10 @@ export default {
 
 .jv-image-popup .show-area {
   position: relative;
-  width: 40vw;
-  height: 40vw;
+  /* width: 40vw;
+  height: 40vw; */
+  width: 50%;
+  height: 50%;
   max-width: 650px;
   max-height: 650px;
   background: white;

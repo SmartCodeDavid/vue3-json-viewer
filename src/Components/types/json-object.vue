@@ -19,6 +19,7 @@ export default {
     expand: Boolean,
     sort: Boolean,
     previewMode: Boolean,
+    allowImageShow: Boolean,
   },
   data() {
     return {
@@ -68,6 +69,7 @@ export default {
     }
   },
   render () {
+    debugger;
     let elements = []
     if (!this.previewMode && !this.keyName) {
       elements.push(h('span', {
@@ -86,7 +88,7 @@ export default {
       },
       innerText: '{'
     }))
-
+  debugger;
     if (this.expand) {
       for (let key in this.ordered) {
         if (this.ordered.hasOwnProperty(key)) {
@@ -102,6 +104,7 @@ export default {
             depth: this.depth + 1,
             value,
             previewMode: this.previewMode,
+            allowImageShow: this.allowImageShow,
             mineType: this.value.mime_type,
             originalValue: this.value, // original value, jsonbox can identify its minetype
           }))

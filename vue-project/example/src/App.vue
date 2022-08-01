@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <!-- <h2>明亮</h2> -->
-    <JsonViewer :value="jsonData" copyable boxed sort theme="light" />
+    <JsonViewer :value="jsonData" copyable boxed sort theme="light" :allowImageShow="true" />
     <!-- <h2>暗黑</h2>
    <JsonViewer :value="jsonData" copyable boxed sort theme="dark"/> -->
   </div>
