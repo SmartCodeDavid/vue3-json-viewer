@@ -1,4 +1,8 @@
-import { h, resolveComponent, openBlock, createElementBlock, normalizeClass, createElementVNode, renderSlot, createTextVNode, toDisplayString, createCommentVNode, createVNode, withModifiers } from 'vue';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var vue = require('vue');
 
 function _typeof(obj) {
   "@babel/helpers - typeof";
@@ -60,19 +64,19 @@ var script$b = {
                 domItem.innerText = '"'.concat(value.toString(), '"');
             }
         }
-        return h('span', {}, [
-            this.canExtend && h('span', {
+        return vue.h('span', {}, [
+            this.canExtend && vue.h('span', {
                 'class': {
                     'jv-toggle': true,
                     open: this.expand
                 },
                 onClick: this.toggle
             }),
-            h('span', {
+            vue.h('span', {
                 'class': { 'jv-holder-node': true },
                 ref: 'holderRef'
             }),
-            h('span', domItem)
+            vue.h('span', domItem)
         ]);
     }
 };
@@ -89,7 +93,7 @@ var script$a = {
         }
     },
     render: function render() {
-        return h('span', {
+        return vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-undefined': true
@@ -112,7 +116,7 @@ var script$9 = {
     },
     render: function render() {
         var isInteger = Number.isInteger(this.jsonValue);
-        return h('span', {
+        return vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-number': true,
@@ -131,7 +135,7 @@ var script$8 = {
     functional: true,
     props: { jsonValue: Boolean },
     render: function render() {
-        return h('span', {
+        return vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-boolean': true
@@ -160,7 +164,8 @@ var script$7 = {
         },
         expand: Boolean,
         sort: Boolean,
-        previewMode: Boolean
+        previewMode: Boolean,
+        allowImageShow: Boolean
     },
     data: function data() {
         return { value: {} };
@@ -210,7 +215,7 @@ var script$7 = {
     render: function render() {
         var elements = [];
         if (!this.previewMode && !this.keyName) {
-            elements.push(h('span', {
+            elements.push(vue.h('span', {
                 'class': {
                     'jv-toggle': true,
                     'open': !!this.expand
@@ -218,7 +223,7 @@ var script$7 = {
                 onClick: this.toggle
             }));
         }
-        elements.push(h('span', {
+        elements.push(vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-object': true
@@ -229,7 +234,7 @@ var script$7 = {
             for (var key in this.ordered) {
                 if (this.ordered.hasOwnProperty(key)) {
                     var value = this.ordered[key];
-                    elements.push(h(script$1, {
+                    elements.push(vue.h(script$1, {
                         key: key,
                         style: { display: !this.expand ? 'none' : undefined },
                         sort: this.sort,
@@ -237,6 +242,7 @@ var script$7 = {
                         depth: this.depth + 1,
                         value: value,
                         previewMode: this.previewMode,
+                        allowImageShow: this.allowImageShow,
                         mineType: this.value.mime_type,
                         originalValue: this.value
                     }));
@@ -244,7 +250,7 @@ var script$7 = {
             }
         }
         if (!this.expand && Object.keys(this.value).length) {
-            elements.push(h('span', {
+            elements.push(vue.h('span', {
                 style: { display: this.expand ? 'none' : undefined },
                 'class': { 'jv-ellipsis': true },
                 onClick: this.toggle,
@@ -252,14 +258,14 @@ var script$7 = {
                 innerText: '...'
             }));
         }
-        elements.push(h('span', {
+        elements.push(vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-object': true
             },
             innerText: '}'
         }));
-        return h('span', elements);
+        return vue.h('span', elements);
     }
 };
 
@@ -282,7 +288,8 @@ var script$6 = {
         },
         sort: Boolean,
         expand: Boolean,
-        previewMode: Boolean
+        previewMode: Boolean,
+        allowImageShow: Boolean
     },
     data: function data() {
         return { value: [] };
@@ -324,7 +331,7 @@ var script$6 = {
         var _this2 = this;
         var elements = [];
         if (!this.previewMode && !this.keyName) {
-            elements.push(h('span', {
+            elements.push(vue.h('span', {
                 'class': {
                     'jv-toggle': true,
                     'open': !!this.expand
@@ -332,7 +339,7 @@ var script$6 = {
                 onClick: this.toggle
             }));
         }
-        elements.push(h('span', {
+        elements.push(vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-array': true
@@ -341,18 +348,19 @@ var script$6 = {
         }));
         if (this.expand) {
             this.value.forEach(function (value, key) {
-                elements.push(h(script$1, {
+                elements.push(vue.h(script$1, {
                     key: key,
                     style: { display: _this2.expand ? undefined : 'none' },
                     sort: _this2.sort,
                     depth: _this2.depth + 1,
                     value: value,
-                    previewMode: _this2.previewMode
+                    previewMode: _this2.previewMode,
+                    allowImageShow: _this2.allowImageShow
                 }));
             });
         }
         if (!this.expand && this.value.length) {
-            elements.push(h('span', {
+            elements.push(vue.h('span', {
                 style: { display: undefined },
                 'class': { 'jv-ellipsis': true },
                 onClick: this.toggle,
@@ -360,14 +368,14 @@ var script$6 = {
                 innerText: '...'
             }));
         }
-        elements.push(h('span', {
+        elements.push(vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-array': true
             },
             innerText: ']'
         }));
-        return h('span', elements);
+        return vue.h('span', elements);
     }
 };
 
@@ -383,7 +391,7 @@ var script$5 = {
         }
     },
     render: function render() {
-        return h('span', {
+        return vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-function': true
@@ -409,7 +417,7 @@ var script$4 = {
     render: function render() {
         var value = this.jsonValue;
         var timeformat = this.timeformat;
-        return h('span', {
+        return vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-string': true
@@ -471,19 +479,19 @@ var script$3 = {
                 domItem.innerText = ''.concat(value.toString());
             }
         }
-        return h('span', {}, [
-            this.canExtend && h('span', {
+        return vue.h('span', {}, [
+            this.canExtend && vue.h('span', {
                 'class': {
                     'jv-toggle': true,
                     open: this.expand
                 },
                 onClick: this.toggle
             }),
-            h('span', {
+            vue.h('span', {
                 'class': { 'jv-holder-node': true },
                 ref: 'holderRef'
             }),
-            h('span', domItem)
+            vue.h('span', domItem)
         ]);
     }
 };
@@ -531,7 +539,7 @@ var script$2 = {
         }
     },
     render: function render() {
-        return h('span', {
+        return vue.h('span', {
             'class': {
                 'jv-item': true,
                 'jv-image': true
@@ -602,6 +610,7 @@ var script$1 = {
             'default': 0
         },
         previewMode: Boolean,
+        allowImageShow: Boolean,
         originalValue: {
             type: [
                 Object,
@@ -650,7 +659,7 @@ var script$1 = {
             dataType = script$6;
         } else if (Object.prototype.toString.call(this.value) === '[object Date]') {
             dataType = script$4;
-        } else if (typeof this.value === 'string' && (_this$mineType = this.mineType) !== null && _this$mineType !== void 0 && _this$mineType.includes('image') && this.keyName === 'uri' && checkIslegalURL(this.value) || this.keyName === 'blob' && this.value.length > 0) {
+        } else if (this.allowImageShow && (typeof this.value === 'string' && (_this$mineType = this.mineType) !== null && _this$mineType !== void 0 && _this$mineType.includes('image') && this.keyName === 'uri' && checkIslegalURL(this.value) || this.keyName === 'blob' && this.value.length > 0)) {
             dataType = script$2;
         } else if (_typeof(this.value) === 'object') {
             dataType = script$7;
@@ -668,7 +677,7 @@ var script$1 = {
         }
         var complex = this.keyName && this.value && (Array.isArray(this.value) || _typeof(this.value) === 'object' && Object.prototype.toString.call(this.value) !== '[object Date]');
         if (!this.previewMode && complex) {
-            elements.push(h('span', {
+            elements.push(vue.h('span', {
                 'class': {
                     'jv-toggle': true,
                     open: !!this.expand
@@ -677,7 +686,7 @@ var script$1 = {
             }));
         }
         if (this.keyName) {
-            elements.push(h('span', {
+            elements.push(vue.h('span', {
                 'class': { 'jv-key': true },
                 onClick: function onClick() {
                     _this.keyClick(_this.keyName);
@@ -685,7 +694,7 @@ var script$1 = {
                 innerText: ''.concat(this.keyName, ':')
             }));
         }
-        elements.push(h(dataType, {
+        elements.push(vue.h(dataType, {
             'class': { 'jv-push': true },
             jsonValue: this.value,
             keyName: this.keyName,
@@ -693,12 +702,13 @@ var script$1 = {
             depth: this.depth,
             expand: this.expand,
             previewMode: this.previewMode,
+            allowImageShow: this.allowImageShow,
             originalValue: this.originalValue,
             'onUpdate:expand': function onUpdateExpand(value) {
                 _this.expand = value;
             }
         }));
-        return h('div', {
+        return vue.h('div', {
             'class': {
                 'jv-node': true,
                 'jv-key-node': Boolean(this.keyName) && !complex,
@@ -1335,6 +1345,10 @@ var script = {
         previewMode: {
             type: Boolean,
             'default': false
+        },
+        allowImageShow: {
+            type: Boolean,
+            'default': false
         }
     },
     provide: function provide() {
@@ -1446,52 +1460,54 @@ var _hoisted_1 = {
 var _hoisted_2 = { 'class': 'show-area' };
 var _hoisted_3 = ['src'];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-    var _component_json_box = resolveComponent('json-box');
-    return openBlock(), createElementBlock('div', { 'class': normalizeClass($options.jvClass) }, [
-        $props.copyable ? (openBlock(), createElementBlock('div', {
+    var _component_json_box = vue.resolveComponent('json-box');
+    return vue.openBlock(), vue.createElementBlock('div', { 'class': vue.normalizeClass($options.jvClass) }, [
+        $props.copyable ? (vue.openBlock(), vue.createElementBlock('div', {
             key: 0,
-            'class': normalizeClass('jv-tooltip '.concat($options.copyText.align || 'right'))
-        }, [createElementVNode('span', {
+            'class': vue.normalizeClass('jv-tooltip '.concat($options.copyText.align || 'right'))
+        }, [vue.createElementVNode('span', {
                 ref: 'clip',
-                'class': normalizeClass([
+                'class': vue.normalizeClass([
                     'jv-button',
                     { copied: $data.copied }
                 ])
-            }, [renderSlot(_ctx.$slots, 'copy', { copied: $data.copied }, function () {
-                    return [createTextVNode(toDisplayString($data.copied ? $options.copyText.copiedText : $options.copyText.copyText), 1)];
-                })], 2)], 2)) : createCommentVNode('v-if', true),
-        createElementVNode('div', {
-            'class': normalizeClass([
+            }, [vue.renderSlot(_ctx.$slots, 'copy', { copied: $data.copied }, function () {
+                    return [vue.createTextVNode(vue.toDisplayString($data.copied ? $options.copyText.copiedText : $options.copyText.copyText), 1)];
+                })], 2)], 2)) : vue.createCommentVNode('v-if', true),
+        vue.createElementVNode('div', {
+            'class': vue.normalizeClass([
                 'jv-code',
                 {
                     open: $data.expandCode,
                     boxed: $props.boxed
                 }
             ])
-        }, [createVNode(_component_json_box, {
+        }, [vue.createVNode(_component_json_box, {
                 ref: 'jsonBox',
                 value: $props.value,
                 sort: $props.sort,
-                'preview-mode': $props.previewMode
+                'preview-mode': $props.previewMode,
+                'allow-image-show': $props.allowImageShow
             }, null, 8, [
                 'value',
                 'sort',
-                'preview-mode'
+                'preview-mode',
+                'allow-image-show'
             ])], 2),
-        createCommentVNode(' <div\n      v-if="expandableCode && boxed"\n      class="jv-more"\n      @click="toggleExpandCode"\n    >\n      <span class="jv-toggle" :class="{ open: !!expandCode }" />\n    </div> '),
-        $data.showPopup ? (openBlock(), createElementBlock('div', _hoisted_1, [createElementVNode('div', _hoisted_2, [
-                createElementVNode('img', {
+        vue.createCommentVNode(' <div\n      v-if="expandableCode && boxed"\n      class="jv-more"\n      @click="toggleExpandCode"\n    >\n      <span class="jv-toggle" :class="{ open: !!expandCode }" />\n    </div> '),
+        $data.showPopup ? (vue.openBlock(), vue.createElementBlock('div', _hoisted_1, [vue.createElementVNode('div', _hoisted_2, [
+                vue.createElementVNode('img', {
                     'class': 'jv-image',
                     src: $data.imgeSrc,
                     alt: ''
                 }, null, 8, _hoisted_3),
-                createElementVNode('div', {
+                vue.createElementVNode('div', {
                     'class': 'close-btn',
-                    onClick: _cache[0] || (_cache[0] = withModifiers(function () {
+                    onClick: _cache[0] || (_cache[0] = vue.withModifiers(function () {
                         return $options.closePopup && $options.closePopup.apply($options, arguments);
                     }, ['stop']))
                 }, '+')
-            ])])) : createCommentVNode('v-if', true)
+            ])])) : vue.createCommentVNode('v-if', true)
     ], 2);
 }
 
@@ -1503,4 +1519,5 @@ var install = function install(app) {
 };
 var index = { install: install };
 
-export { script as JsonViewer, index as default };
+exports.JsonViewer = script;
+exports["default"] = index;

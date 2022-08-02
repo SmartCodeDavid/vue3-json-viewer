@@ -17,10 +17,10 @@
 $ npm install clipboard --save
 ```
 
-再安装vue3-json-viewer
+再安装vue3-json-source-viewer
 
 ```
-$ npm install vue3-json-viewer --save
+$ npm install vue3-json-source-viewer --save
 ```
 
 ## 引用JSON viewer的Vue使用案例  
@@ -48,9 +48,9 @@ main.js
 ```js
 import { createApp } from 'vue'
 import App from './App.vue'
-import JsonViewer from "vue3-json-viewer"
+import JsonViewer from "vue3-json-source-viewer"
 // if you used v1.0.5 or latster ,you should add import "vue3-json-viewer/dist/index.css"
-import "vue3-json-viewer/dist/index.css"
+import "vue3-json-source-viewer/dist/index.css"
 const app = createApp(App)
 //全局引入
 app.use(JsonViewer)
@@ -73,9 +73,9 @@ App.vue (版本一)
 
 <script setup>
 //组件引入
-import {JsonViewer} from "vue3-json-viewer"
+import {JsonViewer} from "vue3-json-source-viewer"
 
-import "vue3-json-viewer/dist/index.css";
+import "vue3-json-source-viewer/dist/index.css";
 import { reactive, ref } from "vue";
 let obj = {
   name: "qiu",//字符串

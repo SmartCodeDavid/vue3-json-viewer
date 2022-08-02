@@ -21,10 +21,10 @@ Requires `clipboard`
 $ npm install clipboard --save
 ```
 
-Then install `vue3-json-viewer`
+Then install `vue3-json-source-viewer`
 
 ```
-$ npm install vue3-json-viewer --save
+$ npm install vue3-json-source-viewer --save
 ```
 
 ## Vue project example  
@@ -51,7 +51,7 @@ main.js
 ```js
 import { createApp } from "vue";
 import App from "./App.vue";
-import JsonViewer from "vue3-json-viewer";
+import JsonViewer from "vue3-json-source-viewer";
 // if you used v1.0.5 or latster ,you should add import "vue3-json-viewer/dist/index.css"
 import "vue3-json-viewer/dist/index.css";
 const app = createApp(App);
@@ -73,9 +73,9 @@ App.vue (version 1)
 </template>
 
 <script setup>
-import {JsonViewer} from "vue3-json-viewer"
+import {JsonViewer} from "vue3-json-source-viewer"
 
-import "vue3-json-viewer/dist/index.css";
+import "vue3-json-source-viewer/dist/index.css";
 import { reactive, ref } from "vue";
 let obj = {
   name: "qiu",//string
@@ -118,7 +118,7 @@ App.vue (current version)
 
 <script setup>
 // import component
-import { JsonViewer } from "../../../src";
+import { JsonViewer } from "vue3-json-source-viewer";
 
 // mock data from document array
 import docArrayJson from "./mock/data.json";

@@ -164,7 +164,8 @@ var script$7 = {
         },
         expand: Boolean,
         sort: Boolean,
-        previewMode: Boolean
+        previewMode: Boolean,
+        allowImageShow: Boolean
     },
     data: function data() {
         return { value: {} };
@@ -241,6 +242,7 @@ var script$7 = {
                         depth: this.depth + 1,
                         value: value,
                         previewMode: this.previewMode,
+                        allowImageShow: this.allowImageShow,
                         mineType: this.value.mime_type,
                         originalValue: this.value
                     }));
@@ -286,7 +288,8 @@ var script$6 = {
         },
         sort: Boolean,
         expand: Boolean,
-        previewMode: Boolean
+        previewMode: Boolean,
+        allowImageShow: Boolean
     },
     data: function data() {
         return { value: [] };
@@ -351,7 +354,8 @@ var script$6 = {
                     sort: _this2.sort,
                     depth: _this2.depth + 1,
                     value: value,
-                    previewMode: _this2.previewMode
+                    previewMode: _this2.previewMode,
+                    allowImageShow: _this2.allowImageShow
                 }));
             });
         }
@@ -606,6 +610,7 @@ var script$1 = {
             'default': 0
         },
         previewMode: Boolean,
+        allowImageShow: Boolean,
         originalValue: {
             type: [
                 Object,
@@ -654,7 +659,7 @@ var script$1 = {
             dataType = script$6;
         } else if (Object.prototype.toString.call(this.value) === '[object Date]') {
             dataType = script$4;
-        } else if (typeof this.value === 'string' && (_this$mineType = this.mineType) !== null && _this$mineType !== void 0 && _this$mineType.includes('image') && this.keyName === 'uri' && checkIslegalURL(this.value) || this.keyName === 'blob' && this.value.length > 0) {
+        } else if (this.allowImageShow && (typeof this.value === 'string' && (_this$mineType = this.mineType) !== null && _this$mineType !== void 0 && _this$mineType.includes('image') && this.keyName === 'uri' && checkIslegalURL(this.value) || this.keyName === 'blob' && this.value.length > 0)) {
             dataType = script$2;
         } else if (_typeof(this.value) === 'object') {
             dataType = script$7;
@@ -697,6 +702,7 @@ var script$1 = {
             depth: this.depth,
             expand: this.expand,
             previewMode: this.previewMode,
+            allowImageShow: this.allowImageShow,
             originalValue: this.originalValue,
             'onUpdate:expand': function onUpdateExpand(value) {
                 _this.expand = value;
@@ -1339,6 +1345,10 @@ var script = {
         previewMode: {
             type: Boolean,
             'default': false
+        },
+        allowImageShow: {
+            type: Boolean,
+            'default': false
         }
     },
     provide: function provide() {
@@ -1476,11 +1486,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 ref: 'jsonBox',
                 value: $props.value,
                 sort: $props.sort,
-                'preview-mode': $props.previewMode
+                'preview-mode': $props.previewMode,
+                'allow-image-show': $props.allowImageShow
             }, null, 8, [
                 'value',
                 'sort',
-                'preview-mode'
+                'preview-mode',
+                'allow-image-show'
             ])], 2),
         vue.createCommentVNode(' <div\n      v-if="expandableCode && boxed"\n      class="jv-more"\n      @click="toggleExpandCode"\n    >\n      <span class="jv-toggle" :class="{ open: !!expandCode }" />\n    </div> '),
         $data.showPopup ? (vue.openBlock(), vue.createElementBlock('div', _hoisted_1, [vue.createElementVNode('div', _hoisted_2, [
