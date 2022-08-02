@@ -1,8 +1,13 @@
 # vue3-json-viewer
 
-简单易用的json内容展示组件,适配vue3和vite。
-在使用vue3+vite开发时，发现需要用到显示json数据组件，发现vue-json-viewer只能兼容vue2，于是花了一个小时，重写的vue3的适配。
-原作者：[github](https://github.com/chenfengjw163/vue-json-viewer)
+版本1：简单易用的json内容展示组件,适配vue3和vite。  
+<mark style="background-color: orange">原作者1：</mark> [github](https://github.com/chenfengjw163/vue-json-viewer)
+
+版本2：在使用vue3+vite开发时，发现需要用到显示json数据组件，发现vue-json-viewer只能兼容vue2，于是花了一个小时，重写的vue3的适配。  
+<mark style="background-color: orange">原作者2：</mark> [github](https://github.com/qiuquanwu/vue3-json-viewer)  
+
+当前版本： 由于前面两个版本仅支持json数据的基本展示，因项目需要，需对含有图片字段(uri/blob)的数据进行预览，可根据json数据中的mime_type字段来进行判断当前数据是否图片类型，并通过blob/uri字段获取图片的相关信息并弹窗展示  
+<mark style="background-color: orange">当前作者：</mark> [github](https://github.com/SmartCodeDavid/vue3-json-viewer)
 
 ## 安装
 
@@ -17,10 +22,24 @@ $ npm install clipboard --save
 ```
 $ npm install vue3-json-viewer --save
 ```
+
+## 引用JSON viewer的Vue使用案例  
+
+进入vue-project下的example目录  
+
+安装依赖
+``` bash
+npm install
+```
+
+启动项目  
+``` bash
+npm run dev
+```
+
 ## 近期更新
-- 暗夜主题支持
-- 添加key节点点击事件
-- 支持正则表达式类型
+- 支持图片预览(根据mime_type字段判断是否为图片类型, 通过uri/blob来弹窗展示图片)
+- 取消之前版本的向下收起扩展显示功能
   
 ## 使用
 
@@ -38,15 +57,16 @@ app.use(JsonViewer)
 app.mount('#app')
 ```
 
-App.vue
+App.vue (版本一)
 
 ``` html
 <template>
 <div class="box">
   <h2>明亮</h2>
- <JsonViewer :value="jsonData" copyable boxed sort theme="jv-light"/>
+  <!-- allowImageShow 来控制是否允许展示图片 -->
+ <JsonViewer :value="jsonData" copyable boxed sort theme="light" :allowImageShow="true" />
   <h2>暗黑</h2>
-   <JsonViewer :value="jsonData" copyable boxed sort theme="jv-dark"/>
+  <JsonViewer :value="jsonData" copyable boxed sort theme="light" :allowImageShow="true" />
 </div>
  
 </template>
@@ -75,4 +95,48 @@ const jsonData = reactive(obj);
 </style>
 ```
 
-![](./img/demo.png)
+![](./img/demo.png)  
+
+App.vue (当前版本)
+``` js
+<template>
+  <div class="box">
+    <h2>明亮</h2>
+    <JsonViewer
+      :value="jsonData"
+      copyable
+      boxed
+      sort
+      theme="light"
+      :allowImageShow="true"
+    />
+    <h2>暗黑</h2>
+    <JsonViewer :value="jsonData" copyable boxed sort theme="dark" />
+  </div>
+</template>
+
+<script setup>
+// import component
+import { JsonViewer } from "../../../src";
+
+// mock data from document array
+import docArrayJson from "./mock/data.json";
+
+import { reactive, ref } from "vue";
+
+const jsonData = reactive(docArrayJson);
+</script>
+
+<style>
+.box {
+  height: 100%;
+}
+</style>
+
+```
+
+![](./img/demo2.png)  
+
+点击展示图片
+
+![](./img/demo3.png)

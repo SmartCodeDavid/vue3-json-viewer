@@ -1,6 +1,6 @@
 {
   "name": "vue3-json-viewer",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "vuejs展示json的组件,适配vue3, 支持图片字段弹窗展示(blob, image url support)",
   "main": "dist/bundle.cjs.js",
   "module": "dist/bundle.esm.js",
@@ -18,13 +18,12 @@
     "vue-next",
     "vue3"
   ],
-  "author": "qiuquanwu <“919403255@qq.com>",
-  "license": "ISC",
-  "homepage": "https://vjv-doc-qiuquanwu.vercel.app/",
+  "author": "davidlan <“asxtl2012@gmail.com>",
+  "license": "MIT",
   "bugs": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/qiuquanwu/vue3-json-viewer"
+    "url": "git+https://github.com/SmartCodeDavid/vue3-json-viewer"
   },
   "devDependencies": {
     "@babel/core": "^7.11.1",
@@ -64,6 +63,10 @@
     {
       "name": "邱权武",
       "email": "9194032@qq.com"
+    },
+    {
+      "name": "davidlan",
+      "email": "asxtl2012@gmail.com"
     }
   ],
   "dependencies": {
