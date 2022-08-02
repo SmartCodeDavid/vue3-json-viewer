@@ -69,7 +69,6 @@ export default {
     }
   },
   render () {
-    debugger;
     let elements = []
     if (!this.previewMode && !this.keyName) {
       elements.push(h('span', {
@@ -88,7 +87,6 @@ export default {
       },
       innerText: '{'
     }))
-  debugger;
     if (this.expand) {
       for (let key in this.ordered) {
         if (this.ordered.hasOwnProperty(key)) {

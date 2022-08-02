@@ -64,7 +64,6 @@ export default {
     },
   },
   render() {
-    debugger;
     let elements = [];
     let dataType;
     if (this.value === null || this.value === undefined) {
